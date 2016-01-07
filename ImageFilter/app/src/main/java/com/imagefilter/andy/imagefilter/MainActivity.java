@@ -2,6 +2,7 @@ package com.imagefilter.andy.imagefilter;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         ImageButton button = (ImageButton) findViewById(R.id.Image);
         OnClickListener listener = new OnClickListener() {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 //use snippet 5 to select image
             }
         });
+        loadButton.setOnClickListener(listener);
 
         Button meanButton = (Button) findViewById(R.id.Mean);
         meanButton.setOnClickListener(new OnClickListener() {
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 //change imagebutton after
             }
         });
+        meanButton.setOnClickListener(listener);
 
         Button medianButton = (Button) findViewById(R.id.Median);
         medianButton.setOnClickListener(new OnClickListener() {
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 //change imagebutton after
             }
         });
+        medianButton.setOnClickListener(listener);
     }
 
     @Override
@@ -55,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
