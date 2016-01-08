@@ -5,19 +5,48 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    #should be embedded in another linearlayout
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Size of Convolution Mask"
+        android:text="Current Size of Convolution Mask: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <TextView
+        android:id="@+id/curConvu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    #
+
     <SeekBar
-        android:id="@+id/convu"
+        android:id="@+id/seekConvu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:progressDrawable="@android:color/holo_green_dark"/>
+
+    #should be embedded in another linear layout
+    <TextView
+        android:id="@+id/label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/convu"
+        android:layout_marginTop="50dp"
+        android:text="New Value:"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/newConvu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    #
 
     <LinearLayout
         android:layout_width="match_parent"
