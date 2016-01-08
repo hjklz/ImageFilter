@@ -25,21 +25,18 @@
         android:id="@+id/Load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.50"
         android:text="Load" />
 
     <Button
         android:id="@+id/Mean"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.50"
         android:text="Mean Filter" />
 
     <Button
         android:id="@+id/Median"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.50"
         android:text="Median Filter" />
 
 </LinearLayout>
