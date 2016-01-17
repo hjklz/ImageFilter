@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         meanButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 cancelFilterTask();
-                int mask = getPreferences(Context.MODE_PRIVATE).getInt(getString(R.string.convuMask), 1);
+                int mask = getSharedPreferences("ImageFilter", Context.MODE_PRIVATE).getInt(getString(R.string.convuMask), 1);
                 filterTask = new FilterTask(MainActivity.this, imgButton, meanButton, FilterTask.MEAN_FILTER, mask);
                 filterTask.execute();
                 meanButton.setEnabled(false);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         medianButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 cancelFilterTask();
-                int mask = getPreferences(Context.MODE_PRIVATE).getInt(getString(R.string.convuMask), 1);
+                int mask = getSharedPreferences("ImageFilter", Context.MODE_PRIVATE).getInt(getString(R.string.convuMask), 1);
                 filterTask = new FilterTask(MainActivity.this, imgButton, medianButton, FilterTask.MEDIAN_FILTER, mask);
                 filterTask.execute();
                 medianButton.setEnabled(false);
@@ -145,9 +145,11 @@ public class MainActivity extends AppCompatActivity {
                     imgButton.setImageBitmap(image);
                     imgButton.setTag(HAS_IMAGE);
 
-                    SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences("ImageFilter", Context.MODE_PRIVATE).edit();
                     editor.putInt(getString(R.string.convuMask), 1);
                     editor.commit();
+
+                    //Toast.makeText(this, Integer.toString(getSharedPreferences("ImageFilter", Context.MODE_PRIVATE).getInt(getString(R.string.convuMask), 1)), Toast.LENGTH_LONG).show();
 
                     meanButton.setEnabled(true);
                     medianButton.setEnabled(true);
