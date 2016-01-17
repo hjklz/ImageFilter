@@ -1,51 +1,77 @@
 package com.imagefilter.andy.imagefilter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private SeekBar seekBar;
-    private TextView curConvu, newConvu;
-
+    private NumberPicker convuPicker;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        /*
-        Seekbar code modified from http://examples.javacodegeeks.com/android/core/widget/seekbar/android-seekbar-example/
-         */
-        seekBar = (SeekBar) findViewById(R.id.seekConvu);
-        curConvu = (TextView) findViewById(R.id.curConvu);
-        newConvu = (TextView) findViewById(R.id.newConvu);
+        setConvuPicker(getIntent().getIntExtra("ImageSize", 1));
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        //curConvu.setText(); // grab value from shared preferences
-        newConvu.setText("Covered: " + seekBar.getProgress() + "/" + seekBar.getMax());
+        TextView curConvu = (TextView) findViewById(R.id.curConvu);
 
-        seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            int progress = 0;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-                Toast.makeText(getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
-            }
+        //snippet 2
+        curConvu.setText(Integer.toString(sharedPref.getInt(getString(R.string.convuMask), 1))); // grab value from shared preferences
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                newConvu.setText("Covered: " + progress + "/" + seekBar.getMax());
-                Toast.makeText(getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+        Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
             }
         });
+
+        Button ok = (Button) findViewById(R.id.ok);
+        ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                //the number picker value is the index so need to reference the displayed values to get actual value
+                editor.putInt(getString(R.string.convuMask), Integer.parseInt(convuPicker.getDisplayedValues()[convuPicker.getValue()-1]));
+
+                editor.commit();
+                finish();
+            }
+        });
+    }
+
+    private void setConvuPicker (int maxSize) {
+        ArrayList<String> values = new ArrayList<String>();
+
+        //making number picker only display valid convolution masks
+        for (int i = 1; i <= maxSize; i+=2) {
+            values.add(Integer.toString(i));
+        }
+
+        String[] valuesArr = new String[values.size()];
+        valuesArr = values.toArray(valuesArr);
+
+        convuPicker = (NumberPicker) findViewById(R.id.convuPicker);
+        convuPicker.setWrapSelectorWheel(false);
+
+        // As per http://stackoverflow.com/questions/22370310/modifying-or-changing-min-max-and-displayed-values-for-numberpicker
+        // making number picker ignore the length check of the values
+        convuPicker.setDisplayedValues(null);
+        convuPicker.setMinValue(1);
+        convuPicker.setMaxValue(valuesArr.length);
+        convuPicker.setDisplayedValues(valuesArr);
     }
 }
