@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
 
@@ -130,7 +128,7 @@ public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
     }
 
     private void medianFilter(int x, int y) {
-        int a = 0, r = 0, g = 0, b = 0;
+        int a, r, g, b;
         //lists of all the bits in a mask
         //could refactor this into a 4D arrayList
         ArrayList<Integer> aList = new ArrayList<>(),
@@ -180,12 +178,10 @@ public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
 
         }
 
-        if (type == MEDIAN_FILTER) {
-            a = getMedian(aList);
-            r = getMedian(rList);
-            g = getMedian(gList);
-            b = getMedian(bList);
-        }
+        a = getMedian(aList);
+        r = getMedian(rList);
+        g = getMedian(gList);
+        b = getMedian(bList);
 
         newImage.setPixel(x, y, Color.argb(a, r, g, b));
     }
@@ -193,22 +189,21 @@ public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
     //using algorithm that finds median without sorting
     //https://discuss.codechef.com/questions/1489/find-median-in-an-unsorted-array-without-sorting-it
     private int partitions(int low,int high, ArrayList<Integer> list) {
-        int p=low,r=high,x=list.get(r),i=p-1;
-        for(int j=p;j<=r-1;j++)
+        int x=list.get(high),i=low-1;
+        for(int j=low;j<=high-1;j++)
         {
             if (list.get(j) <= x)
             {
-
                 i=i+1;
                 Collections.swap(list, i, j);
             }
         }
-        Collections.swap(list, i+1, r);
+        Collections.swap(list, i+1, high);
         return i+1;
     }
 
     private int getMedian(ArrayList<Integer> list) {
-        int left = 0;
+        int left = 1;
         int right = list.size()-1;
         int kth = list.size()/2;
 
