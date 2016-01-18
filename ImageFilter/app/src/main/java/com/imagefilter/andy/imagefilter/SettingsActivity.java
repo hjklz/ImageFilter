@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         setConvuPicker(getIntent().getIntExtra("ImageSize", 1));
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences("ImageFilter", Context.MODE_PRIVATE);
 
         TextView curConvu = (TextView) findViewById(R.id.curConvu);
 
@@ -54,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setConvuPicker (int maxSize) {
-        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<>();
 
         //making number picker only display valid convolution masks
         for (int i = 1; i <= maxSize; i+=2) {
