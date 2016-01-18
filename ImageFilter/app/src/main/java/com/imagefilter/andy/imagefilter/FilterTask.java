@@ -208,8 +208,8 @@ public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
     }
 
     private int getMedian(ArrayList<Integer> list) {
-        int left = 1;
-        int right = list.size();
+        int left = 0;
+        int right = list.size()-1;
         int kth = list.size()/2;
 
         //handling situation where finding median is trivial
