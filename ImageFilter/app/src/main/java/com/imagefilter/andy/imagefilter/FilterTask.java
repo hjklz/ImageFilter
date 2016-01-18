@@ -49,8 +49,14 @@ public class FilterTask extends AsyncTask <Void,Integer,Bitmap>{
         {
             newImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
+            //using goto here to break out of multiple loops
+            loop:
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
+                    if(isCancelled()) {
+                        break loop;
+                    }
+
                     if (type == MEAN_FILTER) {
                         meanFilter(x,y);
                     }
